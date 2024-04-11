@@ -1,0 +1,43 @@
+h1 {
+    color: blue;
+    background-color: yellow;
+    border: 1px solid black;
+    padding: 10px 15px 15px 5px;
+}
+@media (max-width: 30em) {
+    h1 {
+      background-color: rgb(140, 232, 255);
+    }
+}
+
+p{
+    color: red;
+}
+
+li em {
+    color: rebeccapurple;
+}
+
+li.special,
+span.special,
+.special{
+color: orange;
+font-weight: bold;
+}
+
+h1 + p {
+font-size: 200%;
+}
+
+a:link { color: rgb(255, 191, 201); }
+a:visited { color: green; }
+a:hover { color: red; }
+
+.box {
+    margin: 30px;
+    width: 100px;
+    height: 100px;
+    background-color: rgb(255, 247, 96);
+    transform: rotate(0.8turn);
+    padding: 1px;
+  }
