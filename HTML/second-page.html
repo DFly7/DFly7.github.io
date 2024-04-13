@@ -1,44 +1,34 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Bruh</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Grid Layout Example</title>
 <link rel="stylesheet" href="../css/styles.css">
-<script src="JS/script.js" defer></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="../JS/script.js" type="module"></script>
+
 </head>
 <body>
 
+<div class="wrapper">
+    <header class="grid-item1">
+        <h1>Vehcile Search</h1>
+        <nav>
+          <ul>  
+            <li><a href='../index.html'>People Search</a></li>
+            <li>Vehile Search</li>
+            <li><a href='../HTML/third.html'>Add Vehcile</a></li>
+          </ul>
+        </nav>
+      </header>
+  <aside class="grid-item2">Item 2</aside>
+  <main class="grid-item3">Item 3</main>
+  <footer class="grid-item4">Item 4</footer>
 
-<header>
-  <h1>MY WEBSITE</h1>
-  <nav>
-    <ul>  
-      <li>People Search<a href='../HTML/third.html'> hit </a></li>
-      <li>Vehile Search</li>
-      <li>Add a vehicle</li>
-    </ul>
-  </nav>
-</header>
 
-
-<main>
-  <div class="container">
-    <aside class="sidebar">
-      <h2>Sidebar</h2>
-      <p>Sidebar content goes here...</p>
-    </aside>
-    <div class="main-content">
-      <h1>Main Content</h1>
-      <p>Main content goes here...</p>
-      <ul>
-        <li>More <em>special text</em></li>
-     </ul>
-    </div>
-  </div>
-
-</main>
-
-<footer>
-  <p>&copy; 2024 My Website. All rights reserved.</p>
-</footer>
+</div>
 
 </body>
 </html>

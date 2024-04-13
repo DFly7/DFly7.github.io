@@ -1,40 +1,34 @@
-<!doctype html>
-<html lang="en-US">
-  <head>
-    <meta charset="utf-8" />
-    <title>My test page</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="JS/script.js" defer></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Grid Layout Example</title>
+<link rel="stylesheet" href="css/styles.css">
 
-  </head>
-  <body>
-    <h1>My Website</h1>
-    <h1 class = "box">BOX what up</h1>
-    <p>sizeeee</p>
-    <img src='images/stock.png'
-    alt=""  
-    width="400" 
-    height="200" />
-    <p>This is my page</p>
-    <p>The website has a <a href='HTML/second-page.html'>second page</a>.</p>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="JS/script.js" type="module"></script>
 
-    <body>
-      <p>Some <em>special text</em>.<p>
-      <ul>
-         <li>More <em>special text</em></li>
-      </ul>
+</head>
+<body>
 
-      <ul>
-        <li>Item one</li>
-        <li class="special">Item two</li>
-        <li>Item <em>three</em></li>
-      </ul>
+<div class="wrapper">
+    <header class="grid-item1">
+        <h1>People Search</h1>
+        <nav>
+          <ul>  
+            <li>People Search</li>
+            <li><a href='HTML/second-page.html'>Vehcile Search</a></li>
+            <li><a href='HTML/third.html'>Add Vehcile</a></li>
+          </ul>
+        </nav>
+      </header>
+  <aside class="grid-item2">Item 2</aside>
+  <main class="grid-item3">Item 3</main>
+  <footer class="grid-item4">Item 4</footer>
 
-      <p>This is a <span class="special">special paragraph</span></p>
 
-   </body>
-  </body>
+</div>
 
-  <button type="button">Player 1: Chris</button>
-
+</body>
 </html>
