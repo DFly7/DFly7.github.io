@@ -1,32 +1,57 @@
+body{
+    height: 90%;
+}
+
+header{
+    margin: 10px;
+    border: 10px solid black;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+.wrapper{
+    display:grid;
+    height: 90vh;
+    grid-template-columns:1fr 4fr;
+    grid-template-rows: 200px 400px 1fr;
+    grid-gap: 10px;
+    grid-template-areas: 
+        'header header'
+        'aside main'
+        'footer footer';
+}
+
+.grid-item1 {
+    grid-area: header;
+    background-color: #f0f0f0; /* Just for demonstration */
+    padding: 20px; /* Just for demonstration */
+    text-align: center; /* Center text */
+}
+.grid-item2 {
+    grid-area: aside;
+    background-color: #f0f0f0; /* Just for demonstration */
+    padding: 20px; /* Just for demonstration */
+    text-align: center; /* Center text */
+}
+.grid-item3 {
+    grid-area: main;
+    background-color: #f0f0f0; /* Just for demonstration */
+    padding: 20px; /* Just for demonstration */
+    text-align: center; /* Center text */
+}
+.grid-item4 {
+    grid-area: footer;
+    background-color: #f0f0f0; /* Just for demonstration */
+    padding: 20px; /* Just for demonstration */
+    text-align: center; /* Center text */
+}
+
 h1 {
     color: blue;
     background-color: yellow;
     border: 1px solid black;
-    padding: 10px 15px 15px 5px;
-}
-@media (max-width: 30em) {
-    h1 {
-      background-color: rgb(140, 232, 255);
-    }
-}
-
-p{
-    color: red;
-}
-
-li em {
-    color: rebeccapurple;
-}
-
-li.special,
-span.special,
-.special{
-color: orange;
-font-weight: bold;
-}
-
-h1 + p {
-font-size: 200%;
+    padding: 5px 10px 10px 5px;
+    text-align: center; 
 }
 
 a:link { color: rgb(255, 191, 201); }
@@ -34,10 +59,60 @@ a:visited { color: green; }
 a:hover { color: red; }
 
 .box {
-    margin: 30px;
-    width: 100px;
-    height: 100px;
-    background-color: rgb(255, 247, 96);
-    transform: rotate(0.8turn);
-    padding: 1px;
-  }
+margin: 30px;
+width: 100px;
+height: 100px;
+background-color: rgb(255, 247, 96);
+transform: rotate(0.8turn);
+padding: 1px;
+}
+
+button {
+font-family: "helvetica neue", helvetica, sans-serif;
+letter-spacing: 1px;
+text-transform: uppercase;
+border: 2px solid rgb(200 200 0 / 60%);
+background-color: rgb(0 217 217 / 60%);
+color: rgb(100 0 0 / 100%);
+box-shadow: 1px 1px 2px rgb(0 0 200 / 40%);
+border-radius: 10px;
+padding: 3px 10px;
+cursor: pointer;
+}
+
+nav ul{
+display: flex;
+list-style: none;
+justify-content: space-around;
+padding: 0px;
+
+}
+
+li{
+border: 2px solid blue;
+padding: 5px;
+}
+
+/* Flex container */
+.container {
+display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+flex: 0 0 25%; /* Sidebar takes 25% of the container width */
+background-color: #f0f0f0;
+padding: 20px;
+}
+
+/* Main content */
+.main-content {
+flex: 1; /* Main content takes remaining width */
+padding: 20px;
+}
+
+/* Just for demonstration */
+.sidebar h2,
+.main-content h1 {
+margin-top: 0;
+}
