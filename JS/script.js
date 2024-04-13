@@ -1,16 +1,32 @@
-import { createClient } from
+
+// Import the Supabase client
+import {createClient} from
    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-const supabase = createClient('https://jizmrczvocrrklokuhua.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imppem1yY3p2b2Nycmtsb2t1aHVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTI4NzYyOTYsImV4cCI6MjAyODQ1MjI5Nn0.1IDohWlAcuLG1KXTtAJNFmmFGivtdtbHBl2iL3cYq90')
-
+const supabaseUrl = 'https://jizmrczvocrrklokuhua.supabase.co';
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function fetchData() {
-const { data, error } = await supabase.from('People').select();
-console.log('Fetched data:', data);
-}
+   const { data, error } = await supabase.from('People').select('*');
+   
+   if (error) {
+     console.error('Error fetching data:', error.message);
+     return null;
+   }
+   
+   return data;
+ }
 
-fetchData()
-
+ window.onload = async function() {
+   const data = await fetchData();
+   if (data) {
+     // Output the fetched data
+     console.log('Data fetched successfully:', data);
+   } else {
+     console.error('Failed to fetch data');
+   }
+ };
 // const button = document.querySelector("button");
 // button.addEventListener("click", updateName);
 // function updateName() {
