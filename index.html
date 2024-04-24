@@ -6,8 +6,9 @@
 <title>CSS Grid Layout Example</title>
 <link rel="stylesheet" href="css/styles.css">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="JS/script.js" type="module"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
+<script src="JS/script.js" type="module" defer></script>
 
 </head>
 <body>
@@ -24,7 +25,22 @@
         </nav>
       </header>
   <aside class="grid-item2">Item 2</aside>
-  <main class="grid-item3">Item 3</main>
+  <main class="grid-item3">
+    <form>
+      <label>Name
+        <input type="text" id="peopleName" maxlength="20">
+      </label>
+      
+      <label>Number
+        <input type="text" id="number" maxlength="20">
+      </label>
+
+      <button class="button" id="people" type="button">Click</button>
+    </form>
+    <p id="error"></p>
+    <p id="output"></p>
+
+  </main>
   <footer class="grid-item4">Item 4</footer>
 
 

@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="../css/styles.css">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="../JS/script.js" type="module"></script>
+<script src="../JS/third.js" type="module"></script>
 
 </head>
 <body>
@@ -24,7 +24,28 @@
         </nav>
       </header>
   <aside class="grid-item2">Item 2</aside>
-  <main class="grid-item3">Item 3</main>
+  <main class="grid-item3">
+    <form id="form">
+      <label>Plate Num
+        <input type="text" id="plateNum" maxlength="20">
+      </label>
+      <label>Make
+        <input type="text" id="Make" maxlength="20">
+      </label>
+      <label>Model
+        <input type="text" id="Model" maxlength="20">
+      </label>
+      <label>Color
+        <input type="text" id="Colour" maxlength="20">
+      </label>
+      <label>Owner
+        <input type="text" id="OwnerName" maxlength="20">
+      </label>
+      <button class="button" id="VADD" type="button">Click</button>
+    </form>
+    <p id="errorV"></p>
+    <p id="outputV"></p>
+  </main>
   <footer class="grid-item4">Item 4</footer>
 
 
