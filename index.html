@@ -1,49 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSS Grid Layout Example</title>
-<link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>People Serach</title>
 
-
-<!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
-<script src="JS/script.js" type="module" defer></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="JS/script.js" type="module" defer></script>
 
 </head>
 <body>
-
-<div class="wrapper">
+<div class="container" id="container">
     <header class="grid-item1">
         <h1>People Search</h1>
         <nav>
-          <ul>  
+          <ul class="flexnav">  
             <li>People Search</li>
-            <li><a href='HTML/second-page.html'>Vehcile Search</a></li>
-            <li><a href='HTML/third.html'>Add Vehcile</a></li>
+            <li><a href='second-page.html'>Vehicle Search</a></li>
+            <li><a href='third.html'>Add a Vehicle</a></li>
           </ul>
         </nav>
       </header>
-  <aside class="grid-item2">Item 2</aside>
+  <aside class="grid-item2">
+    <img scr="images/search.png" alt="People Searching">
+  </aside>
   <main class="grid-item3">
     <form>
       <label>Name
-        <input type="text" id="peopleName" maxlength="20">
+        <input type="text" id="name" maxlength="20">
       </label>
       
-      <label>Number
-        <input type="text" id="number" maxlength="20">
+      <label>License Number
+        <input type="text" id="license" maxlength="20">
       </label>
 
-      <button class="button" id="people" type="button">Click</button>
+      <button class="button" id="people" type="button">Submit</button>
     </form>
-    <p id="error"></p>
-    <p id="output"></p>
+    <p id="message"></p>
+    <p id="results"></p>
 
   </main>
-  <footer class="grid-item4">Item 4</footer>
-
-
+  <footer class="grid-item4">Darragh Flynn 2024</footer>
 </div>
 
 </body>
