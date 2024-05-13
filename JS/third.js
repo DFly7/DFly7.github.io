@@ -110,7 +110,7 @@ async function checkplate()
 async function checkOwner(){
     outputV.innerHTML = '';
 
-    if(plateNum.Num == '' || make.value == '' || model.value == 0 || colour.value == '' || owenername.value == '')
+    if(plateNum.value == '' || make.value == '' || model.value == 0 || colour.value == '' || owenername.value == '')
     {
         outputV.innerHTML = 'Error';
         return;
@@ -192,8 +192,33 @@ function addperson(){
     ChildNodesAdd.push(Cex);
     ChildNodesAdd.push(Cbu);
 
-    button.addEventListener("click", addPersonToDB);
+    button.addEventListener("click", checkpersonID);
 }
+
+async function checkpersonID(){
+    let id = document.getElementById('personid');
+
+    const { data, error } = await supabase
+    .from('People')
+    .select()
+    .eq('PersonID', id.value);
+
+    console.log(data);
+
+    if(error)
+    {
+        console.log('errorrr check');
+    }
+
+    if(data.length != 0)
+    {
+        outputV.innerHTML = 'Error';
+        return;
+    }
+
+    addPersonToDB();
+}
+
 
 async function addPersonToDB(){
     outputV.innerHTML = '';

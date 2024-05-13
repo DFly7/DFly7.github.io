@@ -28,9 +28,11 @@ footer{
 
 .container{
     display:grid;
-    height: 90vh;
+    height: 100vh;
+    overflow: hidden; /* Hide any content that overflows the container */
+
     grid-template-columns:1fr 4fr;
-    grid-template-rows: 1fr 10fr 1fr;
+    grid-template-rows: 1fr 9fr 2fr;
     /* grid-gap: 10px; */
     grid-template-areas: 
         'header header'
@@ -38,12 +40,12 @@ footer{
         'footer footer';
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 499px) {
     .container{
         display:grid;
-        height: 90vh;
+        height: 100vh;
         grid-template-columns:1fr 4fr;
-        grid-template-rows: 1fr 10fr 1fr;
+        grid-template-rows: 1fr 19fr 2fr;
         /* grid-gap: 10px; */
         grid-template-areas: 
             'header header'
@@ -116,7 +118,7 @@ cursor: pointer;
     display: flex;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 499px) {
     .flexnav{
         display: block;
     }
@@ -153,7 +155,8 @@ label{
     /* width: 100px; */
 }
 
-/* img {
-    width: 10%;
-    height: 10%;
-} */
+img {
+    width: 100%; /* Ensure the image fills the container horizontally */
+    height: 100%; /* Ensure the image fills the container vertically */
+    object-fit: contain; /* Ensure the entire image fits within the container while maintaining aspect ratio */
+  }
