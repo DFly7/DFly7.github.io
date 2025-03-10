@@ -3,42 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>People Serach</title>
+  <title>Paddle ELO Tracker</title>
 
+  <link rel="icon" href="images/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <script src="JS/script.js" type="module" defer></script>
+  <script src="JS/leaderboard.js" type="module" defer></script>
 
 </head>
 <body>
 <div class="container" id="container">
-    <header class="grid-item1">
-        <h1>People Search</h1>
+    <header class="grid-item1 sticky-header">
+        <h1>Paddle ELO Leaderboard</h1>
         <nav>
           <ul class="flexnav">  
-            <li>People Search</li>
-            <li><a href='second-page.html'>Vehicle Search</a></li>
-            <li><a href='third.html'>Add a Vehicle</a></li>
+            <li>Leaderboard</li>
+            <li><a href='matches.html'>Enter Match</a></li>
+            <li><a href='history.html'>Match History</a></li>
           </ul>
         </nav>
       </header>
-  <aside class="grid-item2">
-    <img src='images/search.png' alt="Man Searching"/> 
-  </aside>
-  <main class="grid-item3">
-    <form>
-      <label>Name
-        <input type="text" id="name" maxlength="20">
-      </label>
-      
-      <label>License Number
-        <input type="text" id="license" maxlength="20">
-      </label>
-
-      <button class="button" id="people" type="button">Submit</button>
-    </form>
-    <p id="message"></p>
-    <p id="results"></p>
-
+  <main class="grid-item3 full-width">
+    <div class="pull-to-refresh-hint">Pull down to refresh</div>
+    <h2>Player Rankings</h2>
+    <div class="leaderboard-container">
+      <table id="leaderboard">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>ELO Rating</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <!-- Player data will be inserted here by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+    <div id="message"></div>
   </main>
   <footer class="grid-item4">Darragh Flynn 2024</footer>
 </div>

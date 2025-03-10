@@ -1,7 +1,8 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-const supabase = createClient('https://jizmrczvocrrklokuhua.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imppem1yY3p2b2Nycmtsb2t1aHVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTI4NzYyOTYsImV4cCI6MjAyODQ1MjI5Nn0.1IDohWlAcuLG1KXTtAJNFmmFGivtdtbHBl2iL3cYq90')
+import { createClient } from '@supabase/supabase-js'
 
-
+const supabaseUrl = 'https://bmqwgtwnqwgjqfjorvkw.supabase.co'
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtcXdndHducXdnanFmam9ydmt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MjcwMTIsImV4cCI6MjA1NzIwMzAxMn0.D7SIm3vs2mzbL9Sj3Jm6dGQmD8epcD7GAuPpQlAyO2w"
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 // peaople search
 const name = document.getElementById('name');
@@ -101,3 +102,20 @@ async function peopleSearchName(){
   name.value = '';
 
 }
+
+
+async function addPlayer(name, elo) {
+  const { data, error } = await supabase
+    .from('players')
+    .insert([{ name, elo }]);
+
+  if (error) {
+    console.error('Error adding player:', error.message);
+    return;
+  }
+
+  console.log('Player added:', data);
+}
+
+// Example usage
+addPlayer('John Doe', 1600);
