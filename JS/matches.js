@@ -117,6 +117,9 @@ async function loadPlayers() {
     showMessage('Loading players...', 'info');
     console.log('Loading players from "Player" table');
     
+    // Get the no players hint element
+    const noPlayersHint = document.getElementById('no-players-hint');
+    
     // Fetch players sorted by name
     const { data: players, error } = await supabase
       .from('Player')
@@ -149,9 +152,25 @@ async function loadPlayers() {
       // Clear loading message
       messageElement.textContent = '';
       messageElement.className = '';
+      
+      // Hide the no players hint
+      if (noPlayersHint) {
+        noPlayersHint.style.display = 'none';
+      }
+      
+      // Enable the form
+      matchForm.style.display = 'block';
     } else {
       // No players found
-      showMessage('No players found. Please add players below.', 'info');
+      showMessage('No players found. Please add players on the Add Player page.', 'info');
+      
+      // Show the no players hint
+      if (noPlayersHint) {
+        noPlayersHint.style.display = 'block';
+      }
+      
+      // Disable the form
+      matchForm.style.display = 'none';
     }
   } catch (error) {
     console.error('Error loading players:', error.message);

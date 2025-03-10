@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Player - Paddle ELO Tracker</title>
+
+  <link rel="icon" href="images/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="JS/addplayer.js" type="module" defer></script>
+
+</head>
+<body>
+<div class="container" id="container">
+    <header class="grid-item1 sticky-header">
+        <h1>Paddle ELO Tracker</h1>
+        <nav>
+          <ul class="flexnav">  
+            <li><a href='index.html'><i class="fas fa-trophy"></i> Leaderboard</a></li>
+            <li><a href='matches.html'><i class="fas fa-table-tennis-paddle-ball"></i> Enter Match</a></li>
+            <li><a href='history.html'><i class="fas fa-history"></i> History</a></li>
+            <li class="active"><i class="fas fa-user-plus"></i> Add Player</li>
+          </ul>
+        </nav>
+      </header>
+  <main class="grid-item3 full-width">
+    <h2>Add New Player</h2>
+    
+    <div class="player-section">
+      <form id="add-player-form">
+        <label>Player Name
+          <input type="text" id="new-player-name" placeholder="Enter player name" required>
+        </label>
+        
+        <label>Starting ELO (Optional)
+          <input type="number" id="new-player-elo" placeholder="Default: 1500" min="100" max="3000">
+        </label>
+        
+        <button type="submit" class="button" id="add-player">Add Player</button>
+      </form>
+    </div>
+    
+    <div class="current-players">
+      <h3>Current Players</h3>
+      <div class="leaderboard-container">
+        <table id="players-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>ELO Rating</th>
+            </tr>
+          </thead>
+          <tbody id="players-body">
+            <!-- Player data will be inserted here by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div id="message"></div>
+  </main>
+  <footer class="grid-item4">Darragh Flynn 2024</footer>
+</div>
+
+</body>
+</html> 

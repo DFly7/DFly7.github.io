@@ -9,12 +9,25 @@ body {
 }
 
 header {
-  background-color: #1e88e5;
+  background-color: #1565c0;
   color: white;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  text-align: center;
+  border-radius: 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+header h1 {
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+nav ul li a {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 main {
@@ -93,7 +106,7 @@ footer {
 
 h1 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 500;
   letter-spacing: 0.5px;
 }
@@ -142,10 +155,10 @@ button:hover {
 
 .flexnav {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
   padding: 0;
-  margin: 0.75rem 0 0 0;
+  margin: 0.5rem 0 0 0;
+  gap: 0.5rem;
 }
 
 @media only screen and (max-width: 768px) {
@@ -160,16 +173,15 @@ nav ul {
   padding: 0;
   margin: 0;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   width: 100%;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 li {
-  padding: 0.5rem 0;
+  padding: 0;
   font-weight: 500;
-  width: 100%;
-  text-align: center;
+  font-size: 0.85rem;
 }
 
 li a {
@@ -177,14 +189,13 @@ li a {
   text-decoration: none;
   transition: opacity 0.2s;
   display: block;
-  padding: 0.5rem;
+  padding: 0.4rem 0.6rem;
   border-radius: 4px;
 }
 
 li a:hover {
-  opacity: 0.8;
-  text-decoration: none;
   background-color: rgba(255, 255, 255, 0.1);
+  text-decoration: none;
 }
 
 p {
@@ -216,14 +227,17 @@ table {
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid #e0e0e0;
-  font-size: 0.9rem; /* Smaller font size for tables on mobile */
+  font-size: 0.9rem;
+  table-layout: fixed; /* Fixed layout for better control */
 }
 
 th, td {
   padding: 0.75rem 0.5rem;
   text-align: left;
   border-bottom: 1px solid #e0e0e0;
-  white-space: nowrap; /* Prevent text wrapping in cells */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 th {
@@ -378,6 +392,8 @@ button.button:active {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   margin-bottom: 1rem;
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  max-width: 100%;
+  width: 100%;
 }
 
 /* Rank styling */
@@ -625,10 +641,9 @@ button.loading::before {
   }
 }
 
-/* Fixed position header for mobile */
+/* Remove sticky header */
 .sticky-header {
-  position: sticky;
-  top: 0;
+  position: static; /* Changed from sticky to static */
   z-index: 100;
 }
 
@@ -678,81 +693,136 @@ li a:active {
   border-radius: 6px;
 }
 
-/* Add pull-to-refresh hint */
+/* Remove pull-to-refresh hint */
 .pull-to-refresh-hint {
-  text-align: center;
-  color: #999;
-  font-size: 0.8rem;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  display: none;
+  display: none !important;
 }
 
-/* Show pull-to-refresh hint on mobile */
-@media (max-width: 768px) {
-  .pull-to-refresh-hint {
+/* Fix header link movement */
+li a, li.active {
+  display: inline-block;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  position: relative;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Improve table display for iOS */
+.history-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+#match-history {
+  min-width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+/* Adjust column widths for better visibility */
+#match-history th:first-child {
+  min-width: 80px; /* Date column */
+  width: auto;
+}
+
+#match-history th:nth-child(2),
+#match-history th:nth-child(3) {
+  min-width: 120px; /* Names columns */
+  width: auto;
+}
+
+#match-history th:nth-child(4),
+#match-history th:nth-child(5) {
+  min-width: 70px; /* ELO columns */
+  width: auto;
+}
+
+#match-history td {
+  white-space: normal;
+  word-wrap: break-word;
+  padding: 8px;
+}
+
+/* Ensure table cells don't get cut off */
+.history-container table {
+  width: auto;
+  min-width: 100%;
+}
+
+@media (max-width: 480px) {
+  #match-history {
+    font-size: 0.8rem;
+  }
+
+  #match-history td,
+  #match-history th {
+    padding: 8px 4px;
+  }
+
+  #match-history td:first-child {
+    font-size: 0.75rem;
+  }
+
+  .winner-name, .loser-name {
     display: block;
+    white-space: normal;
+    word-wrap: break-word;
+    line-height: 1.2;
   }
 }
 
-/* Improve form validation feedback */
-select:invalid, input:invalid {
-  border-color: #f44336;
+/* Active navigation item */
+li.active {
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 0.4rem 0.6rem;
 }
 
-.duplicate-selection {
-  border-color: #f44336;
-  box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.1);
-}
-
-/* Add focus styles for accessibility */
-a:focus, button:focus, select:focus, input:focus {
-  outline: 2px solid #1e88e5;
-  outline-offset: 2px;
-}
-
-/* Fix iOS input styling */
-input, select, button {
-  border-radius: 6px !important;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-/* Add styles for winner and loser names */
-.winner-name {
-  color: #4caf50;
-  font-weight: 500;
-}
-
-.loser-name {
-  color: #f44336;
-  font-weight: 500;
+/* Icon styling */
+.fas {
+  margin-right: 0.3rem;
+  font-size: 0.9em;
 }
 
 /* Optimize for dark mode */
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #121212;
-    color: #e0e0e0;
+    color: rgba(255, 255, 255, 0.87);
   }
   
   header {
-    background-color: #1565c0;
+    background-color: #0d47a1;
   }
   
   main {
     background-color: #1e1e1e;
+    color: rgba(255, 255, 255, 0.87);
   }
   
   footer {
     background-color: #1e1e1e;
     border-top-color: #333;
-    color: #999;
+    color: rgba(255, 255, 255, 0.6);
   }
   
   h2 {
-    color: #64b5f6;
+    color: #90caf9;
     border-bottom-color: #333;
+  }
+  
+  h3 {
+    color: #90caf9;
+  }
+  
+  a {
+    color: #90caf9;
   }
   
   table {
@@ -761,11 +831,12 @@ input, select, button {
   
   th {
     background-color: #252525;
-    color: #e0e0e0;
+    color: rgba(255, 255, 255, 0.87);
   }
   
   td {
     border-bottom-color: #333;
+    color: rgba(255, 255, 255, 0.87);
   }
   
   .team-section, .player-section {
@@ -773,10 +844,10 @@ input, select, button {
     border-color: #333;
   }
   
-  select, input[type="text"] {
+  select, input[type="text"], input[type="number"] {
     background-color: #333;
     border-color: #444;
-    color: #e0e0e0;
+    color: rgba(255, 255, 255, 0.87);
   }
   
   select {
@@ -785,13 +856,245 @@ input, select, button {
   
   #message {
     background-color: #252525;
+    color: rgba(255, 255, 255, 0.87);
   }
   
   .success-message {
     background-color: rgba(76, 175, 80, 0.1);
+    color: #81c784;
   }
   
   .error-message {
     background-color: rgba(244, 67, 54, 0.1);
+    color: #e57373;
+  }
+  
+  .winner-name {
+    color: #81c784;
+  }
+  
+  .loser-name {
+    color: #e57373;
+  }
+  
+  button.button {
+    background-color: #0d47a1;
+  }
+  
+  button.button:hover {
+    background-color: #1565c0;
+  }
+  
+  a:link, a:visited { 
+    color: #90caf9; 
+  }
+  
+  a:hover { 
+    color: #bbdefb; 
+  }
+
+  /* Fix dark mode table text */
+  table {
+    border-color: #333;
+    color: rgba(255, 255, 255, 0.87);
+  }
+  
+  th, td {
+    color: rgba(255, 255, 255, 0.87);
+    border-bottom-color: #333;
+  }
+
+  tbody tr {
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  .winner-name {
+    color: #81c784;
+  }
+
+  .loser-name {
+    color: #e57373;
+  }
+
+  /* Ensure table text remains visible */
+  #leaderboard td,
+  #match-history td,
+  #players-table td {
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  /* Table styles for dark mode */
+  table, 
+  .leaderboard-container table,
+  .history-container table,
+  #leaderboard,
+  #match-history,
+  #players-table {
+    background-color: #1e1e1e;
+    border-color: #333;
+    color: rgba(255, 255, 255, 0.87);
+  }
+  
+  th, td,
+  table th, table td,
+  #leaderboard th, #leaderboard td,
+  #match-history th, #match-history td,
+  #players-table th, #players-table td {
+    color: rgba(255, 255, 255, 0.87) !important;
+    border-bottom-color: #333;
+  }
+
+  th {
+    background-color: #252525;
+  }
+
+  tbody tr:hover {
+    background-color: #252525;
+  }
+
+  .rank-cell {
+    color: #90caf9;
+  }
+
+  .elo-cell {
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  /* Winner/Loser styles for dark mode */
+  .winner-name {
+    color: #81c784 !important;
+  }
+
+  .loser-name {
+    color: #e57373 !important;
+  }
+
+  /* Container backgrounds */
+  .leaderboard-container,
+  .history-container {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+  }
+}
+
+/* Adjust column widths for different tables */
+#leaderboard th:first-child, 
+#leaderboard td:first-child {
+  width: 60px; /* Rank column */
+}
+
+#leaderboard th:last-child, 
+#leaderboard td:last-child {
+  width: 80px; /* ELO column */
+}
+
+#match-history th:first-child, 
+#match-history td:first-child {
+  width: 80px; /* Date column */
+}
+
+#match-history th:nth-child(4), 
+#match-history td:nth-child(4),
+#match-history th:nth-child(5), 
+#match-history td:nth-child(5) {
+  width: 70px; /* ELO columns */
+}
+
+/* Prevent text overflow in table cells */
+th, td {
+  padding: 0.75rem 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Fix the red selection issue */
+select, input[type="text"] {
+  border-color: #ddd;
+}
+
+select:invalid, input:invalid {
+  border-color: #ddd; /* Override the red border for invalid state */
+}
+
+/* Only show red border when validation fails after interaction */
+select:invalid:focus, input:invalid:focus {
+  border-color: #f44336;
+}
+
+/* Improved table display for mobile */
+#match-history th:nth-child(2), 
+#match-history td:nth-child(2) {
+  min-width: 150px; /* Winners column */
+  max-width: none;
+  white-space: normal;
+}
+
+#match-history th:nth-child(3), 
+#match-history td:nth-child(3) {
+  min-width: 150px; /* Losers column */
+  max-width: none;
+  white-space: normal;
+}
+
+/* Prevent text overflow in table cells */
+th, td {
+  padding: 0.75rem 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.winner-name, .loser-name {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* More mobile-focused tweaks for match history */
+@media (max-width: 480px) {
+  /* Make sure the name columns get enough space */
+  #match-history td:nth-child(2),
+  #match-history td:nth-child(3) {
+    white-space: normal;
+    max-width: none;
+    min-width: 100px;
+    line-height: 1.2;
+  }
+  
+  /* Make names wrap nicely */
+  .winner-name, .loser-name {
+    display: block;
+    white-space: normal;
+    margin-bottom: 2px;
+  }
+  
+  /* Adjust header size */
+  h1 {
+    font-size: 1.1rem;
+  }
+  
+  /* Compact the navigation */
+  li {
+    font-size: 0.8rem;
+  }
+  
+  li a {
+    padding: 0.3rem 0.5rem;
+  }
+  
+  /* Reduce vertical spacing */
+  .container {
+    gap: 0.5rem;
+  }
+  
+  main {
+    padding: 0.75rem;
   }
 }

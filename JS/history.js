@@ -62,28 +62,40 @@ function showMessage(text, type = 'info') {
 }
 
 /**
- * Format a date in a user-friendly way
+ * Format a date in a user-friendly way, optimized for mobile
  * @param {string} dateString - ISO date string
  * @returns {string} - Formatted date string
  */
 function formatDate(dateString) {
   const date = new Date(dateString);
   
-  // Format date: Jan 1, 2023
-  const formattedDate = date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
-  });
+  // Check if we're on a small screen
+  const isMobile = window.innerWidth <= 480;
   
-  // Format time: 2:30 PM
-  const formattedTime = date.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true
-  });
-  
-  return `${formattedDate} at ${formattedTime}`;
+  if (isMobile) {
+    // Compact format for mobile: MM/DD/YY, HH:MM
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear().toString().substr(-2);
+    
+    const hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    const displayHours = hours % 12 || 12;
+    
+    return `${month}/${day}/${year}, ${displayHours}:${minutes}${ampm}`;
+  } else {
+    // Full format for larger screens
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    }) + ' at ' + date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    });
+  }
 }
 
 /**
