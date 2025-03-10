@@ -8,7 +8,6 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 // DOM elements
 const addPlayerForm = document.getElementById('add-player-form');
 const newPlayerNameInput = document.getElementById('new-player-name');
-const newPlayerEloInput = document.getElementById('new-player-elo');
 const playersBody = document.getElementById('players-body');
 const messageElement = document.getElementById('message');
 const addPlayerButton = document.getElementById('add-player');
@@ -137,7 +136,8 @@ async function handleAddPlayer(event) {
   console.log('Add player form submitted');
   
   const playerName = newPlayerNameInput.value.trim();
-  const playerElo = newPlayerEloInput.value ? parseInt(newPlayerEloInput.value) : 1500;
+  // Always use default ELO of 1500 for new players
+  const playerElo = 1500;
   
   if (!playerName) {
     showMessage('Please enter a player name.', 'error');
@@ -168,9 +168,8 @@ async function handleAddPlayer(event) {
       throw error;
     }
     
-    // Clear the inputs
+    // Clear the input
     newPlayerNameInput.value = '';
-    newPlayerEloInput.value = '';
     
     // Show success message
     showMessage(`Player "${playerName}" added successfully with ELO ${playerElo}!`, 'success');
