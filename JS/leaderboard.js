@@ -39,6 +39,11 @@ function showLoadingAnimation() {
     eloCell.innerHTML = '<div class="loading-placeholder" style="width: 50%"></div>';
     row.appendChild(eloCell);
     
+    // Add W/L cell with loading animation
+    const wlCell = document.createElement('td');
+    wlCell.innerHTML = '<div class="loading-placeholder" style="width: 40%"></div>';
+    row.appendChild(wlCell);
+    
     // Add the row to the table
     leaderboardBody.appendChild(row);
   }
@@ -69,22 +74,57 @@ function showMessage(text, type = 'info') {
 }
 
 /**
+ * Count wins for a player
+ * @param {string} playerId - The player's ID
+ * @param {Array} matches - Array of matches
+ * @returns {number} - Number of wins
+ */
+function countPlayerWins(playerId, matches) {
+  return matches.filter(match => 
+    match.winner1 === playerId || 
+    match.winner2 === playerId
+  ).length;
+}
+
+/**
+ * Count losses for a player
+ * @param {string} playerId - The player's ID
+ * @param {Array} matches - Array of matches
+ * @returns {number} - Number of losses
+ */
+function countPlayerLosses(playerId, matches) {
+  return matches.filter(match => 
+    match.loser1 === playerId || 
+    match.loser2 === playerId
+  ).length;
+}
+
+/**
  * Load and display the leaderboard
  */
 async function loadLeaderboard() {
   try {
     // Show loading message
     showMessage('Loading leaderboard...', 'info');
-    console.log('Loading players from "Player" table');
+    console.log('Loading players from "Player" table and matches from "Matches" table');
     
     // Fetch players sorted by ELO in descending order
-    const { data: players, error } = await supabase
+    const { data: players, error: playerError } = await supabase
       .from('Player')
       .select('*')
       .order('elo', { ascending: false });
     
-    if (error) {
-      throw error;
+    if (playerError) {
+      throw playerError;
+    }
+    
+    // Fetch all matches to calculate wins and losses
+    const { data: matches, error: matchError } = await supabase
+      .from('Matches')
+      .select('*');
+    
+    if (matchError) {
+      throw matchError;
     }
     
     // Clear any existing content
@@ -100,7 +140,7 @@ async function loadLeaderboard() {
         rankCell.textContent = index + 1;
         rankCell.className = 'rank-cell';
         
-        // Add special styling for top 3 ranks
+        // Add special class for top 3 players
         if (index < 3) {
           rankCell.classList.add(`rank-${index + 1}`);
         }
@@ -118,6 +158,14 @@ async function loadLeaderboard() {
         eloCell.className = 'elo-cell';
         row.appendChild(eloCell);
         
+        // Add W/L record
+        const wlCell = document.createElement('td');
+        const wins = countPlayerWins(player.id, matches);
+        const losses = countPlayerLosses(player.id, matches);
+        wlCell.innerHTML = `<span class="wins">${wins}</span>-<span class="losses">${losses}</span>`;
+        wlCell.className = 'wl-cell';
+        row.appendChild(wlCell);
+        
         // Add the row to the table
         leaderboardBody.appendChild(row);
       });
@@ -127,7 +175,7 @@ async function loadLeaderboard() {
       messageElement.className = '';
     } else {
       // No players found
-      showMessage('No players found. Add players on the Match Entry page.', 'info');
+      showMessage('No players found. Add players on the Add Player page.', 'info');
     }
   } catch (error) {
     console.error('Error loading leaderboard:', error.message);

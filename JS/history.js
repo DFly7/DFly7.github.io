@@ -1,4 +1,5 @@
 import { supabase } from './config.js';
+import { calculateEloChange } from './config.js';
 
 // DOM elements
 const historyBody = document.getElementById('history-body');
@@ -19,13 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
 function showLoadingAnimation() {
   historyBody.innerHTML = '';
   
-  // Create 5 loading placeholder rows
+  // Create 7 cells with loading animations (updated for new columns)
   for (let i = 0; i < 5; i++) {
     const row = document.createElement('tr');
     row.className = 'loading-row';
     
-    // Create 5 cells with loading animations
-    for (let j = 0; j < 5; j++) {
+    for (let j = 0; j < 7; j++) {
       const cell = document.createElement('td');
       const width = j === 0 ? '60%' : j === 1 || j === 2 ? '80%' : '50%';
       cell.innerHTML = `<div class="loading-placeholder" style="width: ${width}"></div>`;
@@ -99,6 +99,17 @@ function formatDate(dateString) {
 }
 
 /**
+ * Format ELO change value with color and sign
+ * @param {number} change - The ELO change value
+ * @returns {string} - HTML string with formatted ELO change
+ */
+function formatEloChange(change) {
+  const sign = change > 0 ? '+' : '';
+  const className = change > 0 ? 'elo-change-positive' : 'elo-change-negative';
+  return `<span class="${className}">${sign}${change}</span>`;
+}
+
+/**
  * Load and display match history
  */
 async function loadMatchHistory() {
@@ -167,11 +178,22 @@ async function loadMatchHistory() {
         winnerEloCell.className = 'elo-cell';
         row.appendChild(winnerEloCell);
         
+        // Calculate and add winner ELO change using the same function from config.js
+        const winnerChangeCell = document.createElement('td');
+        const eloChanges = calculateEloChange(match.winner_team_avg_elo, match.loser_team_avg_elo);
+        winnerChangeCell.innerHTML = formatEloChange(eloChanges.winnerChange);
+        row.appendChild(winnerChangeCell);
+        
         // Add loser team average ELO
         const loserEloCell = document.createElement('td');
         loserEloCell.textContent = match.loser_team_avg_elo;
         loserEloCell.className = 'elo-cell';
         row.appendChild(loserEloCell);
+        
+        // Calculate and add loser ELO change using the same function from config.js
+        const loserChangeCell = document.createElement('td');
+        loserChangeCell.innerHTML = formatEloChange(eloChanges.loserChange);
+        row.appendChild(loserChangeCell);
         
         // Add the row to the table
         historyBody.appendChild(row);

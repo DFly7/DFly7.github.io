@@ -254,11 +254,11 @@ th {
 @media (max-width: 480px) {
   /* Make ELO columns narrower */
   th:nth-child(3), td:nth-child(3), /* ELO Rating column in leaderboard */
-  th:nth-child(4), td:nth-child(4), /* Winner Avg ELO column in history */
-  th:nth-child(5), td:nth-child(5) { /* Loser Avg ELO column in history */
-    width: 80px;
-    max-width: 80px;
-    text-align: right;
+  th:nth-child(4), td:nth-child(4), /* Matches column in leaderboard */
+  th:nth-child(5), td:nth-child(5), /* Additional columns that might be hidden */
+  th:nth-child(6), td:nth-child(6),
+  th:nth-child(7), td:nth-child(7) {
+    font-size: 0.85rem;
   }
   
   /* Make rank column narrower */
@@ -737,9 +737,12 @@ li a, li.active {
 }
 
 #match-history th:nth-child(4),
-#match-history th:nth-child(5) {
-  min-width: 70px; /* ELO columns */
+#match-history th:nth-child(5),
+#match-history th:nth-child(6),
+#match-history th:nth-child(7) {
+  min-width: 70px; /* ELO and ELO change columns */
   width: auto;
+  text-align: right;
 }
 
 #match-history td {
@@ -773,6 +776,21 @@ li a, li.active {
     white-space: normal;
     word-wrap: break-word;
     line-height: 1.2;
+  }
+
+  #match-history th:nth-child(4),
+  #match-history th:nth-child(5),
+  #match-history th:nth-child(6),
+  #match-history th:nth-child(7),
+  #match-history td:nth-child(4),
+  #match-history td:nth-child(5),
+  #match-history td:nth-child(6),
+  #match-history td:nth-child(7) {
+    width: 60px;
+    min-width: 60px;
+    text-align: right;
+    padding-left: 2px;
+    padding-right: 2px;
   }
 }
 
@@ -1096,5 +1114,91 @@ th, td {
   
   main {
     padding: 0.75rem;
+  }
+}
+
+/* Style ELO change values */
+.elo-change-positive {
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.elo-change-negative {
+  color: #f44336;
+  font-weight: 500;
+}
+
+/* Dark mode styles for ELO changes */
+@media (prefers-color-scheme: dark) {
+  .elo-change-positive {
+    color: #81c784;
+  }
+  
+  .elo-change-negative {
+    color: #e57373;
+  }
+}
+
+/* Mobile optimizations for history table */
+@media (max-width: 480px) {
+  #match-history th:nth-child(4),
+  #match-history th:nth-child(5),
+  #match-history th:nth-child(6),
+  #match-history th:nth-child(7),
+  #match-history td:nth-child(4),
+  #match-history td:nth-child(5),
+  #match-history td:nth-child(6),
+  #match-history td:nth-child(7) {
+    width: 60px;
+    min-width: 60px;
+    text-align: right;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+}
+
+/* Styling for ELO cell */
+.elo-cell {
+  text-align: right;
+  font-weight: 500;
+}
+
+/* Styling for W/L cell */
+.wl-cell {
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Style for wins and losses */
+.wins {
+  color: #4caf50; /* Green for wins */
+  font-weight: 600;
+}
+
+.losses {
+  color: #f44336; /* Red for losses */
+  font-weight: 600;
+}
+
+/* Update dark mode colors for wins and losses */
+@media (prefers-color-scheme: dark) {
+  .wins {
+    color: #81c784; /* Lighter green for dark mode */
+  }
+  
+  .losses {
+    color: #e57373; /* Lighter red for dark mode */
+  }
+}
+
+/* Update media queries for smaller screens to handle the new column */
+@media (max-width: 480px) {
+  /* Update column visibility for mobile */
+  th:nth-child(3), td:nth-child(3), /* ELO Rating column in leaderboard */
+  th:nth-child(4), td:nth-child(4), /* W/L column in leaderboard */
+  th:nth-child(5), td:nth-child(5), /* Additional columns that might be hidden */
+  th:nth-child(6), td:nth-child(6),
+  th:nth-child(7), td:nth-child(7) {
+    font-size: 0.85rem;
   }
 }

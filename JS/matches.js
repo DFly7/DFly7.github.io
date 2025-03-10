@@ -73,6 +73,7 @@ function setButtonLoading(button, isLoading, loadingText = 'Processing...', defa
 
 /**
  * Validate player selections to prevent duplicates
+ * @returns {boolean} - Whether the selections are valid
  */
 function validatePlayerSelections() {
   // Get all selected values
@@ -87,6 +88,17 @@ function validatePlayerSelections() {
   const uniqueValues = new Set(selectedValues);
   const hasDuplicates = selectedValues.length !== uniqueValues.size;
   
+  // Find duplicate players for specific error message
+  const duplicatePlayerIds = [];
+  const playerCounts = {};
+  
+  selectedValues.forEach(playerId => {
+    playerCounts[playerId] = (playerCounts[playerId] || 0) + 1;
+    if (playerCounts[playerId] > 1 && !duplicatePlayerIds.includes(playerId)) {
+      duplicatePlayerIds.push(playerId);
+    }
+  });
+  
   // Highlight duplicates
   [winner1Select, winner2Select, loser1Select, loser2Select].forEach(select => {
     if (select.value && selectedValues.filter(v => v === select.value).length > 1) {
@@ -99,13 +111,26 @@ function validatePlayerSelections() {
   // Update submit button state
   submitMatchButton.disabled = hasDuplicates && selectedValues.length > 1;
   
-  // Show warning if duplicates
+  // Show warning if duplicates with specific player names
   if (hasDuplicates && selectedValues.length > 1) {
-    showMessage('Each player can only be selected once.', 'error');
-  } else if (messageElement.textContent === 'Each player can only be selected once.') {
+    // Get the names of duplicated players for better error message
+    const getPlayerName = (selectElement) => {
+      const option = selectElement.options[selectElement.selectedIndex];
+      return option ? option.text : 'Unknown player';
+    };
+    
+    const duplicateNames = duplicatePlayerIds.map(playerId => {
+      const select = [winner1Select, winner2Select, loser1Select, loser2Select].find(s => s.value === playerId);
+      return getPlayerName(select);
+    });
+    
+    showMessage(`Duplicate player selected: ${duplicateNames.join(', ')}. Each player can only be selected once.`, 'error');
+  } else if (messageElement.textContent.includes('Duplicate player selected')) {
     messageElement.textContent = '';
     messageElement.className = '';
   }
+  
+  return !hasDuplicates;
 }
 
 /**
@@ -251,28 +276,36 @@ async function handleAddPlayer(event) {
 async function handleMatchSubmit(event) {
   event.preventDefault();
   
-  // Get selected player IDs
-  const winner1Id = winner1Select.value;
-  const winner2Id = winner2Select.value;
-  const loser1Id = loser1Select.value;
-  const loser2Id = loser2Select.value;
-  
-  // Validate selections
-  if (!winner1Id || !winner2Id || !loser1Id || !loser2Id) {
-    showMessage('Please select all players.', 'error');
+  // Validate for empty selections
+  if (!winner1Select.value || !winner2Select.value || !loser1Select.value || !loser2Select.value) {
+    showMessage('Please select all players for the match.', 'error');
     return;
   }
   
-  // Check for duplicate selections
-  const playerIds = [winner1Id, winner2Id, loser1Id, loser2Id];
-  if (new Set(playerIds).size !== 4) {
-    showMessage('Each player can only be selected once.', 'error');
+  // Perform duplicate validation once more
+  if (!validatePlayerSelections()) {
+    // Message already shown by validatePlayerSelections
+    return;
+  }
+  
+  // Validate team members aren't the same (winner1 = winner2 or loser1 = loser2)
+  if (winner1Select.value === winner2Select.value) {
+    showMessage('The winning team cannot have the same player twice.', 'error');
+    winner1Select.classList.add('duplicate-selection');
+    winner2Select.classList.add('duplicate-selection');
+    return;
+  }
+  
+  if (loser1Select.value === loser2Select.value) {
+    showMessage('The losing team cannot have the same player twice.', 'error');
+    loser1Select.classList.add('duplicate-selection');
+    loser2Select.classList.add('duplicate-selection');
     return;
   }
   
   try {
     // Set button to loading state
-    setButtonLoading(submitMatchButton, true, 'Submitting Match...');
+    setButtonLoading(submitMatchButton, true, 'Submitting...');
     
     showMessage('Submitting match...', 'info');
     console.log('Using table names: "Player" and "Matches"');
@@ -281,17 +314,17 @@ async function handleMatchSubmit(event) {
     const { data: players, error: playersError } = await supabase
       .from('Player')
       .select('*')
-      .in('id', playerIds);
+      .in('id', [winner1Select.value, winner2Select.value, loser1Select.value, loser2Select.value]);
     
     if (playersError) {
       throw playersError;
     }
     
     // Find players by ID
-    const winner1 = players.find(p => p.id === winner1Id);
-    const winner2 = players.find(p => p.id === winner2Id);
-    const loser1 = players.find(p => p.id === loser1Id);
-    const loser2 = players.find(p => p.id === loser2Id);
+    const winner1 = players.find(p => p.id === winner1Select.value);
+    const winner2 = players.find(p => p.id === winner2Select.value);
+    const loser1 = players.find(p => p.id === loser1Select.value);
+    const loser2 = players.find(p => p.id === loser2Select.value);
     
     // Calculate average ELO for each team
     const winnerTeamAvgElo = Math.round((winner1.elo + winner2.elo) / 2);
@@ -304,10 +337,10 @@ async function handleMatchSubmit(event) {
     const { error: matchError } = await supabase
       .from('Matches')
       .insert([{
-        winner1: winner1Id,
-        winner2: winner2Id,
-        loser1: loser1Id,
-        loser2: loser2Id,
+        winner1: winner1.id,
+        winner2: winner2.id,
+        loser1: loser1.id,
+        loser2: loser2.id,
         winner_team_avg_elo: winnerTeamAvgElo,
         loser_team_avg_elo: loserTeamAvgElo
       }]);
@@ -320,7 +353,7 @@ async function handleMatchSubmit(event) {
     const { error: winner1Error } = await supabase
       .from('Player')
       .update({ elo: winner1.elo + winnerChange, updated_at: new Date() })
-      .eq('id', winner1Id);
+      .eq('id', winner1.id);
     
     if (winner1Error) {
       throw winner1Error;
@@ -329,7 +362,7 @@ async function handleMatchSubmit(event) {
     const { error: winner2Error } = await supabase
       .from('Player')
       .update({ elo: winner2.elo + winnerChange, updated_at: new Date() })
-      .eq('id', winner2Id);
+      .eq('id', winner2.id);
     
     if (winner2Error) {
       throw winner2Error;
@@ -339,7 +372,7 @@ async function handleMatchSubmit(event) {
     const { error: loser1Error } = await supabase
       .from('Player')
       .update({ elo: loser1.elo + loserChange, updated_at: new Date() })
-      .eq('id', loser1Id);
+      .eq('id', loser1.id);
     
     if (loser1Error) {
       throw loser1Error;
@@ -348,7 +381,7 @@ async function handleMatchSubmit(event) {
     const { error: loser2Error } = await supabase
       .from('Player')
       .update({ elo: loser2.elo + loserChange, updated_at: new Date() })
-      .eq('id', loser2Id);
+      .eq('id', loser2.id);
     
     if (loser2Error) {
       throw loser2Error;
