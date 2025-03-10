@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enter Match Results - Paddle ELO Tracker</title>
+
+  <link rel="icon" href="images/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="JS/matches.js" type="module" defer></script>
+
+</head>
+<body>
+<div class="container" id="container">
+    <header class="grid-item1 sticky-header">
+        <h1>Enter Match Results</h1>
+        <nav>
+          <ul class="flexnav">  
+            <li><a href='index.html'>Leaderboard</a></li>
+            <li>Enter Match</li>
+            <li><a href='history.html'>Match History</a></li>
+          </ul>
+        </nav>
+      </header>
+  <main class="grid-item3 full-width">
+    <div class="pull-to-refresh-hint">Pull down to refresh</div>
+    <h2>Record Match Results</h2>
+    <form id="match-form">
+      <div class="team-section">
+        <h3>Winning Team</h3>
+        <div class="player-select">
+          <label>Winner 1
+            <select id="winner1" required>
+              <option value="">Select Player</option>
+              <!-- Options will be populated by JavaScript -->
+            </select>
+          </label>
+          
+          <label>Winner 2
+            <select id="winner2" required>
+              <option value="">Select Player</option>
+              <!-- Options will be populated by JavaScript -->
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="team-section">
+        <h3>Losing Team</h3>
+        <div class="player-select">
+          <label>Loser 1
+            <select id="loser1" required>
+              <option value="">Select Player</option>
+              <!-- Options will be populated by JavaScript -->
+            </select>
+          </label>
+          
+          <label>Loser 2
+            <select id="loser2" required>
+              <option value="">Select Player</option>
+              <!-- Options will be populated by JavaScript -->
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" class="button" id="submit-match">Submit Match</button>
+    </form>
+
+    <div class="player-section">
+      <h3>Add New Player</h3>
+      <form id="add-player-form">
+        <label>Player Name
+          <input type="text" id="new-player-name" placeholder="Enter player name" required>
+        </label>
+        <button type="submit" class="button" id="add-player">Add Player</button>
+      </form>
+    </div>
+
+    <div id="message"></div>
+  </main>
+  <footer class="grid-item4">Darragh Flynn 2024</footer>
+</div>
+
+</body>
+</html> 
